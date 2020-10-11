@@ -18,7 +18,7 @@ def cube_from_stac_collection(collection_feature: list, data_variables: list) ->
 
         >> items = collection.get_items(filter={'bbox':'-61, 2.8, -60, 1.8', 'datetime':'2018-08-01/2019-07-31'})
 
-        >> mutate_1d_cube(items['features'], 'NDVI')
+        >> cube_from_stac_collection(items['features'][0:2], ['NDVI', 'band08'])
     """
 
     if not isinstance(collection_feature, list):
