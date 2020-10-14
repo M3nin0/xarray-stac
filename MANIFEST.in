@@ -1,0 +1,19 @@
+exclude doc/sphinx/_build
+include *.rst
+include *.sh
+include *.txt
+include LICENSE
+include pytest.ini
+recursive-exclude docs/sphinx/_build *
+recursive-include docs *.bat
+recursive-include docs *.css
+recursive-include docs *.ico
+recursive-include docs *.png
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs Makefile
+recursive-include examples *.png
+recursive-include examples *.py
+recursive-include examples *.ipynb
+recursive-include tests *.py
+recursive-include tests *.json
