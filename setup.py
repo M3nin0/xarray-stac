@@ -19,7 +19,8 @@ setup_requires = [
 install_requires = [
     'xarray',
     'stac.py',
-    'pandas'
+    'pandas',
+    'rioxarray'
 ]
 
 packages = find_packages()
