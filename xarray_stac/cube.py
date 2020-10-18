@@ -2,6 +2,7 @@ import os
 import warnings
 from urllib.parse import urlparse
 
+import rioxarray
 import pandas as pd
 import xarray as xr
 
@@ -11,16 +12,22 @@ def _href_to_path(href, basepath):
     return os.path.normpath(basepath + url.path)
 
 
-def cube_from_stac_collection(collection_feature: list, data_variables: list, base_path = None) -> xr.Dataset:
+def cube_from_stac_collection(collection_feature: list, data_variables: list, base_path = None, **kwargs) -> xr.Dataset:
     """Create a datacube (One variable) from a STAC-Collection
     Args:
         collectionfeature (collection_feature): Feature Collection from STAC
+        
         data_variables (list): string list with variables to include in datacube's data dimension
+        
         base_path (str): File System path. Use when you have data product and STAC with same path, changing only the base path
+    
     Example (Using Brazil Data Cube's service):
         >> bdc_stac_service = stac.STAC('http://brazildatacube.dpi.inpe.br/stac/')
+        
         >> collection = bdc_stac_service.collection('S2_10_16D_STK-1')
+        
         >> items = collection.get_items(filter={'bbox':'-61, 2.8, -60, 1.8', 'datetime':'2018-08-01/2019-07-31'})
+        
         >> cube_from_stac_collection(items['features'][0:2], ['NDVI', 'band08'])
     """
 
@@ -49,6 +56,6 @@ def cube_from_stac_collection(collection_feature: list, data_variables: list, ba
             href = feature['assets'][data_variable]['href']
             if base_path:
                 href = _href_to_path(href, base_path)
-            data_list.append(xr.open_rasterio(href))
+            data_list.append(rioxarray.open_rasterio(href, **kwargs))
         cube[data_variable] = xr.concat(data_list, dim=time_dimension)
     return cube
